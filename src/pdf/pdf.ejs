@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+      }
+
+      .wrapper {
+        font-family: Helvetica, sans-serif;
+        margin: 0 auto;
+        color: rgb(64, 64, 64);
+      }
+
+      .flex {
+        margin: 0 auto;
+        width: 90%;
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+      }
+
+      .header {
+        border-bottom: 1px solid black;
+        padding-bottom: 100px;
+        justify-content: stretch;
+      }
+
+      .header-col1 {
+        width: 30%;
+      }
+      .header-col2 {
+        width: 35%;
+      }
+      .header-col3 {
+        width: 35%;
+      }
+
+      .author {
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      table {
+        width: 90%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        padding-bottom: 100px;
+      }
+
+      thead {
+        border-bottom: 1px solid black;
+      }
+
+      tr {
+        page-break-inside: avoid;
+      }
+
+      th,
+      td {
+        vertical-align: top;
+        page-break-inside: avoid;
+        padding: 1rem 1rem 1rem 0.5rem;
+      }
+
+      th {
+        white-space: nowrap;
+        font-size: 15px;
+      }
+
+      td {
+        font-size: 14px;
+      }
+
+      .left-align {
+        text-align: left;
+      }
+
+      .right-align {
+        text-align: right;
+      }
+
+      .center-align {
+        text-align: center;
+      }
+
+      .invoice-footer {
+        margin-top: 100px;
+        border-top: 1px solid black;
+        justify-content: space-between;
+        page-break-inside: avoid;
+      }
+      .invoice-footer .right {
+        padding: 0 2rem;
+        text-align: right;
+      }
+
+      .invoice-footer .left {
+        text-align: left;
+        padding: 0 2rem;
+      }
+
+      .bold {
+        font-weight: bold;
+      }
+
+      .italic {
+        font-style: italic;
+      }
+
+      .date {
+        white-space: nowrap;
+      }
+
+      .address-header {
+        font-weight: bold;
+        line-height: 0.6;
+        font-size: 15px;
+      }
+
+      .large-header {
+        margin-top: 0;
+        font-size: 36px;
+        font-weight: 400;
+      }
+
+      .left {
+        text-align: left;
+      }
+      @media print {
+        .invoice-footer {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="flex header">
+        <div class="header-col1">
+          <h2 class="author"><%= user.name %></h2>
+          <p><%= user.position && user.position %></p>
+        </div>
+        <div class="header-col2">
+          <h1 class="large-header">Faktura</h1>
+          <p>
+            <span class="bold">Fakturanummer: </span><%= invoice.invoiceNumber
+            %>
+          </p>
+          <div>
+            <h3 class="address-header">Mottagare:</h3>
+            <p>
+              <%= invoice.recipient.authority %><br />
+              <%= invoice.recipient.street %><br />
+              <%= invoice.recipient.zip %> <%= invoice.recipient.city %>
+            </p>
+          </div>
+        </div>
+        <div class="header-col3">
+          <p class="date">
+            <span class="bold">Fakturadatum:</span>
+            <%= invoice.updatedAt.toISOString().substring(0, 10) %>
+          </p>
+          <p>
+            <span class="bold">Uppdragsnummer:</span>
+            <%= invoice.assignmentNumber %>
+          </p>
+          <p>
+            <span class="italic">Vår referens:</span><br />
+            <%= user.name %>
+          </p>
+          <% if (invoice.recipient.refPerson) {%>
+          <p>
+            <span class="italic">Er referens:</span><br />
+            <%= invoice.recipient.refPerson %>
+          </p>
+          <% } %>
+          <p>
+            <span class="italic">Betalningsvillkor:</span><br />
+            30 dagar netto
+          </p>
+        </div>
+      </header>
+
+      <main>
+        <table>
+          <thead>
+            <tr>
+              <th width="400" class="left-align">Specifikation</th>
+              <th width="120" class="center-align">Datum</th>
+              <th width="50" class="center-align">Antal</th>
+              <th width="50" class="center-align">Enhet</th>
+              <th width="150" class="center-align">à pris</th>
+              <th width="200" class="right-align" style="padding-right: 2rem">
+                Belopp
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% invoice.rows.forEach(row => { %>
+            <tr>
+              <td width="400" class="left-align"><%= row.description %></td>
+              <td width="120" class="center-align">
+                <%= row.date && row.date %>
+              </td>
+              <td width="50" class="center-align"><%= row.quantity %></td>
+              <td width="50" class="center-align"><%= row.unit %></td>
+              <td width="150" class="right-align"><%= format(row.price) %></td>
+              <td width="200" class="right-align"><%= format(row.amount) %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+
+        <div class="flex invoice-footer">
+          <div class="left">
+            <p>Summa</p>
+            <p>Moms (25%)</p>
+            <p class="bold">Att betala</p>
+          </div>
+          <div class="right">
+            <p class="right-align">
+              <%= format(invoice.totalBeforeVAT) %>
+            </p>
+            <p class="right-align">
+              <%= format((invoice.totalAfterVAT - invoice.totalBeforeVAT)) %>
+            </p>
+            <p class="bold right-align">
+              <%= format(invoice.totalAfterVAT) %>
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

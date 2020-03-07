@@ -1,0 +1,50 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+.folder {
+  margin: 1rem 2rem;
+  color: #dbdbdb;
+}
+
+.folder a {
+  text-decoration: none;
+}
+
+.folder .fas {
+  font-size: 18rem;
+  position: relative;
+}
+
+.fa-folder:hover {
+  cursor: pointer;
+  color: #cfcfcf;
+  transform: scale(1, 1.02);
+}
+
+.folder__name {
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  font: 500 1.3rem 'Open Sans';
+  color: #2f2f2f;
+}
+.welcome-header {
+  color: #282828;
+  text-align: center;
+  margin-top: 3rem;
+  font-weight: 400;
+  font-size: 2rem;
+}
+
+.welcome-message {
+  color: #3d3d3d;
+  width: 60%;
+  text-align: center;
+  margin: 3rem auto;
+  font-size: 1.3rem;
+  line-height: 1.5;
+}

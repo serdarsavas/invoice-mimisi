@@ -1,0 +1,115 @@
+.invoice-header {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-top: 3rem;
+  padding-bottom: 1rem;
+}
+
+.invoice-rows {
+  margin: 2rem auto 0.2rem;
+}
+
+.row-header {
+  font: italic 100 1.1rem "Open Sans";
+  margin-top: 3rem;
+}
+
+.row-handler {
+  margin: 0.5rem 0.5rem 0.5rem 0;
+  display: inline-block;
+  border: 1px solid #4a4a4a;
+  border-radius: 3px;
+  width: 9rem;
+  cursor: pointer;
+}
+
+.row {
+  margin-bottom: 6rem;
+}
+
+.form-actions {
+  margin-top: 4rem;
+}
+
+.fas {
+  color: #4a4a4a;
+  background: #fdfdfd;
+  font-size: 1.2rem;
+  width: 100%;
+  height: 100%;
+  padding: 0.25rem 0.5rem;
+}
+
+.fas:hover,
+.fas:active {
+  color: #fdfdfd;
+  background: #4a4a4a;
+}
+
+.fas span {
+  font: 300 1rem "Open Sans";
+  padding-left: 0.4rem;
+  vertical-align: top;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: #696969;
+  background-image: none;
+}
+
+.select {
+  position: relative;
+  display: block;
+  width: 20em;
+  height: 3em;
+  line-height: 3;
+  overflow: hidden;
+  border-radius: 0.25em;
+}
+select {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 0 0 0.5em;
+  color: #fdfdfd;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+select::-ms-expand {
+  display: none;
+}
+.select::after {
+  content: "\25BC";
+  color: black;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 1em;
+  background: #696969;
+  pointer-events: none;
+}
+
+.select:hover::after {
+  color: #fdfdfd;
+}
+.select::after {
+  -webkit-transition: 0.25s all ease;
+  -o-transition: 0.25s all ease;
+  transition: 0.25s all ease;
+}
+
+.VAT-select {
+  font-size: 0.9rem;
+  width: 8rem;
+  background: rgb(236, 236, 236);
+  color: #4a4a4a;
+  padding: 0.5rem 1rem;
+}

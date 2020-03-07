@@ -1,0 +1,184 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+.invoice {
+  background: #fefefe;
+  position: relative;
+  box-shadow: 0 2px 8px #00000042;
+  width: 22rem;
+  max-width: 95%;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: stretch;
+}
+
+.invoice-data {
+  margin-top: 2rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+.invoice-header {
+  margin: auto;
+  padding: 1rem 1rem 0 1rem;
+}
+
+.invoice-details {
+  margin: auto;
+}
+
+.invoice-header h1,
+.invoice-header h1,
+.invoice-header h2,
+.invoice-header p {
+  margin: 0;
+}
+
+.invoice-actions {
+  padding: 2rem 0;
+  text-align: center;
+  width: 100%;
+}
+
+.invoice-actions a {
+  margin: 0 0.1rem;
+  text-decoration: none;
+  font: 400 0.8rem;
+  color: #4c4c4c;
+  padding: 0.7rem 0.7rem;
+  text-align: center;
+  border: 1px solid #4c4c4c;
+  border-radius: 3px;
+}
+
+.invoice-actions a:hover,
+.invoice-actions a:active {
+  background: #4c4c4c;
+  color: #f3f1f1;
+  border: #f3f1f1;
+}
+
+.invoice-header__title {
+  font-size: 1.4rem;
+  font-weight: 200;
+  text-align: center;
+  color: #4c4c4c;
+  padding: 0.5rem;
+}
+.invoice-header__date {
+  font-size: 1.1rem;
+  font-weight: 200;
+  text-align: center;
+  color: #4c4c4c;
+}
+
+.invoice-details {
+  margin-top: 2.5rem;
+}
+
+.invoice-details__total {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #4c4c4c;
+}
+
+.invoice-details__number,
+.invoice-details__date {
+  text-align: center;
+  color: #4c4c4c;
+}
+
+.search-form__filter {
+  display: block;
+  -webkit-appearance: textfield;
+  margin: 1rem auto;
+  font-family: inherit;
+  font-size: 100%;
+  outline: none;
+  background: #e2e2e2 no-repeat 9px center;
+  border: solid 1px #e2e2e2;
+  padding: 0.8rem 3.2rem;
+  width: 9%;
+  border-radius: 10em;
+
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.search-form__filter::-webkit-search-decoration,
+.search-form__filter::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search-form__filter:focus,
+.search-form__filter:hover {
+  width: 30%;
+  background-color: #f8f8f8;
+}
+
+.delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.delete-btn {
+  padding: 0.5rem;
+  background: inherit;
+  font-size: 1.4rem;
+  color: #454545;
+  width: 2.5rem;
+  border: none;
+  transition: color 0.4s ease-out;
+}
+
+.delete-btn:hover,
+.delete-btn:focus,
+.delete-btn:active {
+  color: #c51313;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.45rem;
+}
+
+
+
+@media (max-width: 1500px) {
+  .search-form__filter {
+    width: 20%;
+    background: #ededed;
+  }
+
+  .search-form__filter:focus,
+  .search-form__filter:hover {
+    width: 50%;
+  }
+
+
+@media (max-width: 768px) {
+  .search-form__filter {
+    width: 40%;
+    background: #ededed;
+  }
+
+  .search-form__filter:focus,
+  .search-form__filter:hover {
+    width: 80%;
+    background-color: #f4f4f4;
+  }
+}
+@media (max-width: 390px) {
+  .invoice-actions a {
+    display: block;
+    width: 70%;
+    margin: 0.5rem auto;
+  }
+}

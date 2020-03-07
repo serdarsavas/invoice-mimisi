@@ -1,0 +1,104 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/forms.css">
+
+  </head>
+  <body class="preload">
+    <%- include('../includes/navigation.ejs') %>
+
+    
+  <div class="form-wrapper">
+    <% if (validationErrors) { %>
+      <% validationErrors.forEach(e => { %>
+        <div class="error-message"><%= e.msg %></div>
+      <% }) %>
+    <% } %>
+    <form action="/signup" method="POST">
+      <div class="form-control">
+        <label for="name">Namn</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'name') ? 'invalid' : ''%>"
+          type="text" 
+          name="name" 
+          id="name" 
+          value="<%= inputData ? inputData.name : '' %>"
+          required/>
+      </div>
+      <div class="form-control">
+        <label for="email">Epost</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : ''%>"
+          type="email" 
+          name="email" 
+          id="email" 
+          value="<%= inputData ? inputData.email : '' %>"
+          required/>
+      </div>
+      <div class="form-control">
+        <label for="phone">Telefon</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'phone') ? 'invalid' : ''%>"
+          type="tel" 
+          name="phone" 
+          id="phone" 
+          value="<%= inputData ? inputData.phone : '' %>"
+          required/>
+      </div>
+
+      <div class="form-control">
+        <label for="street">Gatuaddress</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'street') ? 'invalid' : ''%>"
+          type="text" 
+          name="street" 
+          id="street" 
+          value="<%= inputData ? inputData.street : '' %>"
+          required/>
+      </div>
+
+      <div class="form-control">
+        <label for="zip">Postkod</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'zip') ? 'invalid' : ''%>"
+          type="text"
+          name="zip" 
+          id="zip"
+          value="<%= inputData ? inputData.zip : '' %>"
+          required/>
+      </div>
+
+      <div class="form-control">
+        <label for="city">Postort</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'city') ? 'invalid' : ''%>"
+          type="text" 
+          name="city" 
+          id="city" 
+          value="<%= inputData ? inputData.city : '' %>"
+          required/>
+      </div>
+    
+      <div class="form-control">
+        <label for="password">Lösenord</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : ''%>"
+          type="password" 
+          name="password" 
+          id="password" 
+          value="<%= inputData ? inputData.password : '' %>"
+          required/>
+      </div>
+      <div class="form-control">
+        <label for="confirm-password">Bekräfta lösenord</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'confirmPassword') ? 'invalid' : ''%>"
+          type="password" 
+          name="confirmPassword" 
+          id="confirm-password" 
+          value="<%= inputData ? inputData.confirmPassword : '' %>"
+          required/>
+      </div>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button class="btn" type="submit">Registrera dig</button>
+    </form>
+  </div>
+    <%- include('../includes/end.ejs') %>

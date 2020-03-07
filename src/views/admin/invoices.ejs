@@ -1,0 +1,48 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/invoices.css">
+</head>
+
+<body class="preload">
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+        <form class="search-form">
+            <input type="search" class="search-form__filter" id="filter" placeholder="Sök"/>
+        </form>
+        <div class="grid">
+            <% invoices.forEach(invoice => { %>
+                <article class="invoice">
+                    <div class="invoice-data">
+                        <header class="invoice-header">
+                            <h1 class="invoice-header__title">
+                                <%= invoice.recipient.authority %>
+                            </h1>
+                            <p class="invoice-header__date">
+                                Datum: <%= invoice.updatedAt.toISOString().substring(0, 10).split('-').join('') %>
+                            </p>
+                        </header>
+                        <div class="invoice-details">
+                            <h2 class="invoice-details__total">
+                                <%= invoice.totalAfterVAT %> kr
+                            </h2>
+                            <p class="invoice-details__number">
+                                Fakturanr: <%= invoice.invoiceNumber %>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="invoice-actions">
+                        <form action="/admin/delete-invoice" method="POST" class="delete">
+                            <input type="hidden" name="invoiceId" value="<%= invoice._id %>">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button class="delete-btn" type="submit" title="Ta bort faktura">X</button>
+                        </form> 
+                        <a href="/admin/view-invoice/<%= invoice._id %>" target="_blank">Visa pdf</a>
+                        <a href="/admin/download-invoice/<%= invoice._id %>">Ladda ner pdf</a>
+                        <a href="/admin/edit-invoice/<%= invoice._id %>">Redigera</a> 
+                    </div>                                
+                </article>
+            <% }) %> 
+        </div>
+    </main>
+    <script src="/js/invoices.js"></script>
+<%- include('../includes/end.ejs') %>

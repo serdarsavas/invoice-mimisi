@@ -1,0 +1,239 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/forms.css">
+<link rel="stylesheet" href="/css/add-invoice.css">
+
+</head>
+<%- include('../includes/navigation.ejs') %>
+<body class="preload">
+   
+  <main class="form-wrapper">
+    <% if (validationErrors) { %>
+      <% validationErrors.forEach(e => { %>
+        <div class="error-message"><%= e.msg %></div>
+      <% }) %>
+    <% } %>
+    <% if (successMessage) { %>
+      <h2 class="success-message"><%= successMessage %></h2>
+  <% } %>
+    <h2 class="invoice-header">Mottagaruppgifter</h2>
+    <% if (recipients.length > 0) { %>
+    <form>
+      <div class="select form-control">
+        <select id="target-authority">
+          <% recipients.forEach(recipient => { %>
+            <option value="<%= recipient.authority %>"> 
+              <%= recipient.authority %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-control">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button class="btn" id="get-recipients">Hämta uppgifter</button>
+      </div>  
+    </form>
+    <% } %>
+    
+    
+    <form method="post">
+      <div class="form-control">
+        <label for="authority">Mottagare</label>
+        <input
+          class="<%= validationErrors.find(e => e.param === 'authority') ? 'invalid' : ''%>" 
+          type= "text" 
+          name="authority" 
+          id="authority"
+          value="<%= inputData ? inputData.authority : ''%>" 
+          required/>
+      </div>
+      <div class="form-control">
+        <label for="ref-person">Referensperson</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'refPerson') ? 'invalid' : ''%>"
+          type="text" 
+          name="refPerson" 
+          id="ref-person"
+          value="<%= inputData ? inputData.refPerson : ''%>" 
+          />
+      </div>
+      <div class="form-control">
+        <label for="street">Gatuaddress</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'street') ? 'invalid' : '' %>"
+          type="text" 
+          name="street" 
+          id="street"
+          value="<%= inputData ? inputData.street : ''%>" 
+          required/>
+      </div>
+      <div class="form-control">
+        <label for="zip">Postkod</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'zip') ? 'invalid' : '' %>"
+          type="text" 
+          name="zip" 
+          id="zip"
+          value="<%= inputData ? inputData.zip : '' %>" 
+          required/>
+      </div>
+      <div class="form-control">
+        <label for="city">Postort</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'city') ? 'invalid' : ''%>"
+          type="text" 
+          name="city" 
+          id="city"
+          value="<%= inputData ? inputData.city : '' %>" 
+          required/>
+      </div>
+   
+      <h2 class="invoice-header">Kostnadsuppgifter</h2>
+      <div class="form-control">
+        <label for="invoice-number">Fakturanummer</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'invoiceNumber') ? 'invalid' : ''%>"
+          type="number" 
+          name="invoiceNumber" 
+          value="<%= inputData ? inputData.invoiceNumber : '' %>" 
+          required/>
+      </div>
+      <div class="form-control">
+        <label for="assignment-number">Uppdragsnummer</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'assignmentNumber') ? 'invalid' : ''%>"
+          type="text" 
+          name="assignmentNumber" 
+          value="<%= inputData ? inputData.assignmentNumber : '' %>" 
+          required/>
+      </div>
+
+      <section class="invoice-rows" id="rows">
+        <h3 class="row-header">(Rader på fakturan)</h3>
+        <% if (inputData) { %>
+          <% for (let i = 0; i < inputData.description.length; i++) { %>
+            <div class="row">
+                <select class="VAT-select" name="hasVAT">
+                  <option value="VAT" <% if(inputData.hasVAT[i] === "VAT") { %> selected <% } %>>
+                    Moms &#x2714
+                  </option>
+                  <option value="noVAT" <% if(inputData.hasVAT[i] === "noVAT") { %> selected <% } %>>
+                    Ingen moms &#x2714
+                  </option>
+                </select>
+                <div class="form-control">
+                  <label>Beskrivning</label>
+                  <input
+                    class="<%= validationErrors.find(e => e.param === 'description.') ? 'invalid' : ''%>" 
+                    type="text" 
+                    name="description[]" 
+                    value="<%= inputData.description[i] %>" 
+                    required/>
+                </div>
+                <% if (inputData.date) { %>
+                <div class="form-control">
+                  <label>Datum</label>
+                  <input type="text"
+                    name="date[]" value="<%= inputData.date[i] && inputData.date[i] %>" />
+                </div>
+                <% } %>
+                <div class="form-control">
+                  <label>Antal</label>
+                  <input
+                    class="<%= validationErrors.find(e => e.param === 'quantity.') ? 'invalid' : ''%>"  
+                    type="number" 
+                    name="quantity[]" 
+                    value="<%= inputData.quantity[i] ? inputData.quantity[i] : '' %>" 
+                    required/>
+                </div>
+                <div class="form-control">
+                  <label>Enhet</label>
+                  <input
+                    class="<%= validationErrors.find(e => e.param === 'unit.') ? 'invalid' : ''%>" 
+                    type="text" 
+                    name="unit[]" 
+                    value="<%= inputData.unit[i] ? inputData.unit[i] : '' %>" 
+                    required/>
+                </div>
+                <div class="form-control">
+                  <label>Pris</label>
+                  <input
+                    class="<%= validationErrors.find(e => e.param === 'price.') ? 'invalid' : ''%>" 
+                    type="number" 
+                    name="price[]" 
+                    value="<%= inputData.price[i] ? inputData.price[i] : '' %>"
+                    step=".01" 
+                    required/>
+                </div>
+              </div>
+            <% } %>
+          <% } else { %>
+            <div class="row">
+              <select class="VAT-select" name="hasVAT">
+                <option value="VAT" selected>Moms &#x2714</option>
+                <option value="noVAT">Ingen moms &#x2714</option>
+              </select>
+              <div class="form-control">
+                <label>Beskrivning</label>
+                <input
+                  class="<%= validationErrors.find(e => e.param === 'description.') ? 'invalid' : ''%>" 
+                  type="text" 
+                  name="description[]" 
+                  required
+                />
+              </div>
+              <div class="form-control">
+                <label>Datum</label>
+                <input type="text" name="date[]>" />
+              </div>
+              <div class="form-control">
+                <label>Antal </label>
+                <input
+                  class="<%= validationErrors.find(e => e.param === 'quantity.') ? 'invalid' : ''%>" 
+                  type="number" 
+                  name="quantity[]" 
+                  step=".01" 
+                  required
+                />
+              </div>
+              <div class="form-control">
+                <label>Enhet</label>
+                <input
+                  class="<%= validationErrors.find(e => e.param === 'unit.') ? 'invalid' : ''%>" 
+                  type="text" 
+                  name="unit[]" 
+                  required
+                />
+              </div>
+              <div class="form-control">
+                <label>Pris</label>
+                <input 
+                  class="<%= validationErrors.find(e => e.param === 'price.') ? 'invalid' : ''%>"
+                  type="number" 
+                  name="price[]" 
+                  step=".01"
+                  required/>
+              </div>
+            </div>
+          <% } %>
+        </section>
+        <div class="row-handler" id="add-row">
+          <i class="fas fa-plus"><span>Ny rad</span></i>
+        </div>
+        <div class="row-handler" id="delete-row">
+          <i class="fas fa-minus"><span>Ta bort rad</span></i>
+        </div>
+        <div class="row-handler" id="copy-row">
+          <i class="fas fa-object-ungroup"><span>Kopiera rad</span></i>
+        </div>
+        <div class="form-actions">
+          <button formaction="/admin/save-invoice" class="btn" type="submit">Spara faktura</button>
+          <button formaction="/admin/add-invoice" class="btn" type="submit">Spara och skicka pdf till min epost</button>
+          <a class="btn" href="/admin/invoices">Avbryt</a>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>"> 
+          <input type="hidden" name="invoiceId" value="<%= invoiceId %>"> 
+        </div>
+      </form>
+  </main>
+
+  <script src="/js/add-invoice.js"></script>
+<%- include('../includes/end.ejs') %>
