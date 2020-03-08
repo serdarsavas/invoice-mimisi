@@ -31,10 +31,12 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  wechatId: {
+    type: String,
+    required: true
+  },
   position: String,
   registrationNumber: String,
-  vatNumber: String,
-  bankgiro: String,
   resetToken: String,
   resetTokenExpiration: Date
 });

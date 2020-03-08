@@ -1,26 +1,27 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/invoice-folders.css">
+<link rel="stylesheet" href="/css/invoice-folders.css">
 </head>
 
-    <body class="preload">
-        <%- include('../includes/navigation.ejs') %>
-        <main>
-          <% if (recipients.length > 0) { %>
-            <div class="grid">
-            <% recipients.forEach(recipient => { %>
-            <a href="/admin/invoices/<%= recipient.authority %>">
-              <article class="folder">
-                  <i class="fas fa-folder">
-                    <span class="folder__name"><%= recipient.authority %></span>
-                  </i>
-              </article>
-            </a>
-              
-            <% }) %>
-          </div>
-          <% } else { %>
-              <h1 class="welcome-header">Välkommen till Fakturameistern!</h1>
-              <p class="welcome-message">Börja med att fylla i dina uppgifter. Sedan kan du börja skapa nya fakturor. Efter att du skapat din första faktura kommer denna text försvinna och ersättas med mappar för dina fakturor.</p>
-          <% } %>
-      </main>
+<body class="preload">
+  <%- include('../includes/navigation.ejs') %>
+  <main>
+    <% if (recipients.length > 0) { %>
+    <div class="grid">
+      <% recipients.forEach(recipient => { %>
+      <a href="/admin/invoices/<%= recipient.name %>">
+        <article class="folder">
+          <i class="fas fa-folder">
+            <span class="folder__name"><%= recipient.name %></span>
+          </i>
+        </article>
+      </a>
+
+      <% }) %>
+    </div>
+    <% } else { %>
+    <h1 class="welcome-header">Välkommen till Fakturameistern!</h1>
+    <p class="welcome-message">Börja med att fylla i dina uppgifter. Sedan kan du börja skapa nya fakturor. Efter att du
+      skapat din första faktura kommer denna text försvinna och ersättas med mappar för dina fakturor.</p>
+    <% } %>
+  </main>
   <%- include('../includes/end.ejs') %>

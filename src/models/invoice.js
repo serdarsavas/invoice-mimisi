@@ -8,15 +8,19 @@ const invoiceSchema = new Schema(
       type: String,
       required: true
     },
+    date: {
+        type: Date,
+        default: Date.now
+    },
     assignmentNumber: String,
     recipient: {
-      authority: {
+      name: {
         type: String,
-        required: true,
         trim: true
       },
-      refPerson: {
+      city: {
         type: String,
+        required: true,
         trim: true
       },
       street: {
@@ -24,16 +28,16 @@ const invoiceSchema = new Schema(
         required: true,
         trim: true
       },
-      zip: {
+      phone: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
       },
-      city: {
+      wechatId: {
         type: String,
         required: true,
         trim: true
-      }
+      } 
     },
     rows: [
       {
@@ -42,17 +46,8 @@ const invoiceSchema = new Schema(
           required: true,
           trim: true
         },
-        date: {
-          type: String,
-          trim: true
-        },
         quantity: {
           type: Number,
-          required: true,
-          trim: true
-        },
-        unit: {
-          type: String,
           required: true,
           trim: true
         },
@@ -65,17 +60,10 @@ const invoiceSchema = new Schema(
           type: Number,
           required: true,
           trim: true
-        },
-        hasVAT: Boolean,
-        VAT: {
-          type: Number,
-          required: true,
-          trim: true
         }
       }
     ],
-    totalBeforeVAT: Number,
-    totalAfterVAT: Number,
+    total: Number,
     owner: {
       type: Schema.Types.ObjectId,
       required: true,

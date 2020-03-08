@@ -84,7 +84,7 @@ const validate = method => {
     case 'postEditInvoice':
     case 'postSaveInvoice': {
       return [
-        body('authority')
+        body('name')
           .trim()
           .not()
           .isEmpty()
@@ -97,13 +97,6 @@ const validate = method => {
           .withMessage(`* Gatuadress saknas`)
           .matches(/[0-9a-zA-ZàáäåèéüÀÁÄÅÒÓÖØÜ ,.'-]+$/u)
           .withMessage(`* Otillåtna tecken under 'Gatuadress'`),
-        body('zip')
-          .trim()
-          .not()
-          .isEmpty()
-          .withMessage(`* Postkod saknas`)
-          .matches(/[0-9 ]+$/u)
-          .withMessage(`* Endast siffror och mellanslag tillåtna för 'Postkod'`),
         body('city')
           .trim()
           .not()
@@ -118,13 +111,6 @@ const validate = method => {
           .withMessage(`* Fakturanummer saknas`)
           .isInt()
           .withMessage(`* Endast siffror tillåtna under 'Fakturanummer'`),
-        body('assignmentNumber')
-          .trim()
-          .not()
-          .isEmpty()
-          .withMessage(`* Uppdragsnummer saknas`)
-          .matches(/[0-9a-zA-ZàáäåèéüÀÁÄÅÒÓÖØÜ ,.'-]+$/u)
-          .withMessage(`* Endast siffror och bokstäver tillåtna under 'Uppdragsnummer'`),
         body('description')
           .trim()
           .not()
@@ -139,13 +125,6 @@ const validate = method => {
           .withMessage(`* Antal saknas`)
           .isFloat()
           .withMessage(`* Endast siffror tillåtna under 'Antal'`),
-        body('unit')
-          .trim()
-          .not()
-          .isEmpty()
-          .withMessage(`* Enhet saknas`)
-          .matches(/[0-9a-zA-ZàáäåèéüÀÁÄÅÒÓÖØÜ ,.'-]+$/u)
-          .withMessage(`* Endast siffror och bokstäver tillåtna under 'Enhet'`),
         body('price')
           .trim()
           .not()
@@ -163,6 +142,18 @@ const validate = method => {
           .withMessage(`* Namn saknas`)
           .matches(/[a-zA-ZàáäåèéüÀÁÄÅÒÓÖØÜ ,.'-]+$/u)
           .withMessage(`* Otillåtna tecken i fältet 'Namn'`),
+        body('company')
+          .not()
+          .isEmpty()
+          .withMessage(`*Företagsnamn saknas`)
+          .matches(/[a-zA-ZàáäåèéüÀÁÄÅÒÓÖØÜ ,.'-]+$/u)
+          .withMessage(`* Otillåtna tecken i fältet 'Företagsnamn'`),
+        body('wechatId')
+          .not()
+          .isEmpty()
+          .withMessage(`* Wechat ID saknas`)
+          .matches(/[a-zA-ZàáäåèéüÀÁÄÅÒÓÖØÜ ,.'-]+$/u)
+          .withMessage(`* Otillåtna tecken i fältet 'Wechat ID'`),
         body('email')
           .isEmail()
           .withMessage('* Ange en giltig epostadress')
@@ -206,13 +197,6 @@ const validate = method => {
           .withMessage(`* Postort saknas`)
           .matches(/[a-zA-ZàáäåèéüÀÁÄÅÒÓÖØÜ ]+$/u)
           .withMessage(`* Endast bokstäver och mellanslag tillåtna under 'Postort'`),
-        body('position')
-          .trim()
-          .not()
-          .isEmpty()
-          .withMessage(`* Jobbtitel saknas`)
-          .matches(/[0-9a-zA-ZàáäåèéüÀÁÄÅÒÓÖØÜ ,.'-]+$/u)
-          .withMessage(`* Otillåtna tecken under 'Jobbtitel'`),
         body('registrationNumber')
           .trim()
           .not()
@@ -224,21 +208,6 @@ const validate = method => {
           .withMessage(
             `* Organisationsnummer skrivs med 10 tecken separerat av ett bindestreck ('NNNNNN-NNNN')`
           ),
-        body('vatNumber')
-          .trim()
-          .not()
-          .isEmpty()
-          .withMessage(`* Momsregistreringsnummer saknas`)
-          .matches(/[0-9a-zA-ZàáäåèéüÀÁÄÅÒÓÖØÜ ,.'-]+$/u)
-          .withMessage(`* Endast bokstäver och siffror tillåtna för 'Momsregistreringsnummer'`)
-          .isLength({ min: 14, max: 14 })
-          .withMessage(`* Momsregistreringsnummer ska vara 14 tecken`),
-        body('bankgiro')
-          .trim()
-          .matches(/^([0-9]+-)*[0-9]+$/)
-          .withMessage(`* Bankgiro skrivs i formatet 'NNNN-NNNN'`)
-          .isLength({ min: 7, max: 9 })
-          .withMessage(`* Bankgiro ska  vara 7-8 siffror ('NNNN-NNNN')`),
         body('password')
           .trim()
           .not()
