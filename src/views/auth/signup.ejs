@@ -43,6 +43,16 @@
           value="<%= inputData ? inputData.phone : '' %>"
           required/>
       </div>
+      <div class="form-control">
+        <label for="wechatId">Wechat ID</label>
+        <input 
+          class="<%= validationErrors.find(e => e.param === 'wechatId') ? 'invalid' : ''%>"
+          type="tel" 
+          name="wechatId" 
+          id="wechatId" 
+          value="<%= inputData ? inputData.wechatId : '' %>"
+          required/>
+      </div>
 
       <div class="form-control">
         <label for="street">Gatuaddress</label>

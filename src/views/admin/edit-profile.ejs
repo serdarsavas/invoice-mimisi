@@ -26,7 +26,7 @@
       <div class="form-control">
         <label for="position">Företagsnamn</label>
         <input class="<%= validationErrors.find(e => e.param === 'company') ? 'invalid' : ''%>" type="text"
-          name="position" id="position" <% if (inputData) { %> value="<%= inputData.position %>"
+          name="company" id="company" <% if (inputData) { %> value="<%= inputData.company %>"
           <% } else if(user.company) { %> value="<%= user.company %>" <% } %> required />
       </div>
       <div class="form-control">

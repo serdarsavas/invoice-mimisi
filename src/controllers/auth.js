@@ -103,7 +103,8 @@ exports.postSignup = async (req, res, next) => {
       phone: req.body.phone,
       street: req.body.street,
       zip: req.body.zip,
-      city: req.body.city
+      city: req.body.city,
+      wechatId: req.body.wechatId
     });
 
     await user.save();

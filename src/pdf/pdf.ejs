@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <style>
+      /* Base styles */
+
       * {
         box-sizing: border-box;
       }
@@ -13,56 +15,92 @@
       html,
       body {
         margin: 0;
+        font-family: Helvetica, sans-serif;
+      }
+
+      html {
+        -webkit-print-color-adjust: exact;
+      }
+
+      h3 {
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: rgb(172, 171, 171);
+        margin-bottom: 0;
+      }
+
+      p {
+        margin: 0.3rem 0;
       }
 
       .wrapper {
-        font-family: Helvetica, sans-serif;
+        width: 90%;
         margin: 0 auto;
         color: rgb(64, 64, 64);
       }
 
-      .flex {
-        margin: 0 auto;
-        width: 90%;
+      /* Header */
+
+      .header-box {
+        background-color: rgb(96, 167, 96);
+        color: white;
         display: flex;
-        justify-content: space-around;
-        align-items: stretch;
+        justify-content: space-between;
+        padding: 1rem 3rem;
+        font-size: 0.8rem;
       }
 
-      .header {
-        border-bottom: 1px solid black;
-        padding-bottom: 100px;
-        justify-content: stretch;
+      .main-header {
+        margin-right: 2rem;
+        font-size: 3rem;
+        font-weight: 400;
       }
 
-      .header-col1 {
-        width: 30%;
-      }
-      .header-col2 {
-        width: 35%;
-      }
-      .header-col3 {
-        width: 35%;
+      /*---------INVOICE HEADER------------*/
+
+      .invoice-header {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        margin: auto;
+        padding: 2rem 0;
       }
 
-      .author {
-        font-weight: bold;
-        font-size: 16px;
+      .recipient-details {
+        text-align: left;
+        margin-right: 2rem;
       }
+
+      .invoice-details {
+        display: flex;
+      }
+
+      .invoice-total {
+        text-align: end;
+      }
+
+      /* .invoice-total__header {
+        margin-bottom: 0;
+      } */
+
+      .invoice-total__data {
+        color: rgb(96, 167, 96);
+        font-size: 2rem;
+        margin-top: 0.3;
+      }
+
+      /*----------Table----------------*/
 
       table {
-        width: 90%;
-        margin: 0 auto;
+        width: 92%;
+        margin: auto;
+        border-top: 2px solid rgb(96, 167, 96);
         border-collapse: collapse;
         padding-bottom: 100px;
       }
 
       thead {
-        border-bottom: 1px solid black;
-      }
-
-      tr {
-        page-break-inside: avoid;
+        color: rgb(96, 167, 96);
       }
 
       th,
@@ -81,6 +119,12 @@
         font-size: 14px;
       }
 
+      .row {
+        border-bottom: 1px solid rgb(176, 176, 176);
+        color: black;
+        font-weight: 500;
+      }
+
       .left-align {
         text-align: left;
       }
@@ -93,153 +137,125 @@
         text-align: center;
       }
 
+      /* Invoice-footer */
+
       .invoice-footer {
-        margin-top: 100px;
-        border-top: 1px solid black;
+        display: flex;
         justify-content: space-between;
-        page-break-inside: avoid;
-      }
-      .invoice-footer .right {
-        padding: 0 2rem;
-        text-align: right;
+        margin: 2rem auto 0 auto;
+        width: 90%;
       }
 
-      .invoice-footer .left {
-        text-align: left;
-        padding: 0 2rem;
+      .invoice-summary__data {
+        color: rgb(96, 167, 96);
       }
 
-      .bold {
-        font-weight: bold;
+      .invoice-terms__body {
+        font-size: 0.9rem;
       }
 
-      .italic {
-        font-style: italic;
-      }
+      /* For print */
 
-      .date {
-        white-space: nowrap;
-      }
-
-      .address-header {
-        font-weight: bold;
-        line-height: 0.6;
-        font-size: 15px;
-      }
-
-      .large-header {
-        margin-top: 0;
-        font-size: 36px;
-        font-weight: 400;
-      }
-
-      .left {
-        text-align: left;
-      }
       @media print {
         .invoice-footer {
+          page-break-inside: avoid;
+        }
+
+        tr {
           page-break-inside: avoid;
         }
       }
     </style>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header class="flex header">
-        <div class="header-col1">
-          <h2 class="author"><%= user.name %></h2>
-          <p><%= user.position && user.position %></p>
-        </div>
-        <div class="header-col2">
-          <h1 class="large-header">Faktura</h1>
-          <p>
-            <span class="bold">Fakturanummer: </span><%= invoice.invoiceNumber
-            %>
-          </p>
-          <div>
-            <h3 class="address-header">Mottagare:</h3>
-            <p>
-              <%= invoice.recipient.authority %><br />
-              <%= invoice.recipient.street %><br />
-              <%= invoice.recipient.zip %> <%= invoice.recipient.city %>
-            </p>
-          </div>
-        </div>
-        <div class="header-col3">
-          <p class="date">
-            <span class="bold">Fakturadatum:</span>
-            <%= invoice.updatedAt.toISOString().substring(0, 10) %>
-          </p>
-          <p>
-            <span class="bold">Uppdragsnummer:</span>
-            <%= invoice.assignmentNumber %>
-          </p>
-          <p>
-            <span class="italic">Vår referens:</span><br />
-            <%= user.name %>
-          </p>
-          <% if (invoice.recipient.refPerson) {%>
-          <p>
-            <span class="italic">Er referens:</span><br />
-            <%= invoice.recipient.refPerson %>
-          </p>
-          <% } %>
-          <p>
-            <span class="italic">Betalningsvillkor:</span><br />
-            30 dagar netto
-          </p>
-        </div>
-      </header>
-
-      <main>
-        <table>
-          <thead>
-            <tr>
-              <th width="400" class="left-align">Specifikation</th>
-              <th width="120" class="center-align">Datum</th>
-              <th width="50" class="center-align">Antal</th>
-              <th width="50" class="center-align">Enhet</th>
-              <th width="150" class="center-align">à pris</th>
-              <th width="200" class="right-align" style="padding-right: 2rem">
-                Belopp
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <% invoice.rows.forEach(row => { %>
-            <tr>
-              <td width="400" class="left-align"><%= row.description %></td>
-              <td width="120" class="center-align">
-                <%= row.date && row.date %>
-              </td>
-              <td width="50" class="center-align"><%= row.quantity %></td>
-              <td width="50" class="center-align"><%= row.unit %></td>
-              <td width="150" class="right-align"><%= format(row.price) %></td>
-              <td width="200" class="right-align"><%= format(row.amount) %></td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
-
-        <div class="flex invoice-footer">
-          <div class="left">
-            <p>Summa</p>
-            <p>Moms (25%)</p>
-            <p class="bold">Att betala</p>
-          </div>
-          <div class="right">
-            <p class="right-align">
-              <%= format(invoice.totalBeforeVAT) %>
-            </p>
-            <p class="right-align">
-              <%= format((invoice.totalAfterVAT - invoice.totalBeforeVAT)) %>
-            </p>
-            <p class="bold right-align">
-              <%= format(invoice.totalAfterVAT) %>
-            </p>
-          </div>
-        </div>
-      </main>
+    <div class="header-box">
+      <h1 class="main-header">INVOICE</h1>
+      <div class="contact-details">
+        <p class="contact-details__company"><%= user.company %></p>
+        <p class="contact-details__phone">Phone: <%= user.phone %></p>
+        <p class="contact-details__email">Email: <%= user.email %></p>
+        <p class="contact-details__wechat">Wechat: <%= user.wechatId %></p>
+      </div>
+      <div class="address-details">
+        <p class="adress-details__street"><%= user.street %></p>
+        <p class="adress-details__city"><%= user.zip %> <%= user.city %></p>
+        <p>Sweden</p>
+      </div>
     </div>
+    <main class="wrapper">
+      <section class="invoice-header">
+        <div class="invoice-details">
+          <div class="recipient-details">
+            <h3 class="recipient-details__header">Billed to</h3>
+            <p class="recipient-details__name"><%= invoice.recipient.name %></p>
+            <p class="recipient-details__street">
+              <%= invoice.recipient.street %>
+            </p>
+            <p class="recipient-details__city"><%= invoice.recipient.city %></p>
+          </div>
+          <div class="invoice-data">
+            <div class="invoice-number">
+              <h3 class="invoice-number__header">Invoice number</h3>
+              <p class="invoice-number__data"><%= invoice.invoiceNumber %></p>
+            </div>
+            <div class="invoice-date">
+              <h3>Date Of Issue</h3>
+              <p class="invoice-date__data">
+                <%= invoice.date.toLocaleDateString('sv-SE') %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="invoice-total">
+          <h3 class="invoice-total__header">Invoice Total</h3>
+          <p class="invoice-total__data">
+            <%= formatCurrency(invoice.total) %>
+          </p>
+        </div>
+      </section>
+
+      <table>
+        <thead>
+          <tr>
+            <th width="400" class="left-align">Description</th>
+            <th width="50" class="right-align">Unit Cost</th>
+            <th width="150" class="right-align">Quantity</th>
+            <th width="200" class="right-align">
+              Amount
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% invoice.rows.forEach(row => { %>
+          <tr class="row">
+            <td width="400" class="left-align"><%= row.description %></td>
+            <td width="150" class="right-align">
+              <%= formatCurrency(row.price) %>
+            </td>
+            <td width="50" class="right-align"><%= row.quantity %></td>
+            <td width="200" class="right-align">
+              <%= formatCurrency(row.amount) %>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+      <section class="invoice-footer">
+        <div class="invoice-terms">
+          <h3 class="invoice-terms__header">Invoice Terms</h3>
+          <p class="invoice-terms__body">
+            Please pay your invoice by <%= formatDate(invoice.date) %>
+          </p>
+        </div>
+        <div class="invoice-summary">
+          <h3 class="invoice-summary__data">
+            Amount Due: <%= formatCurrency(invoice.total)%>
+          </h3>
+        </div>
+      </section>
+    </main>
   </body>
 </html>

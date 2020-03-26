@@ -15,15 +15,15 @@
                     <div class="invoice-data">
                         <header class="invoice-header">
                             <h1 class="invoice-header__title">
-                                <%= invoice.recipient.authority %>
+                                <%= invoice.recipient.name %>
                             </h1>
                             <p class="invoice-header__date">
-                                Datum: <%= invoice.updatedAt.toISOString().substring(0, 10).split('-').join('') %>
+                                Datum: <%= invoice.date.toISOString().substring(0, 10).split('-').join('') %>
                             </p>
                         </header>
                         <div class="invoice-details">
                             <h2 class="invoice-details__total">
-                                <%= invoice.totalAfterVAT %> kr
+                                <%= invoice.total %> kr
                             </h2>
                             <p class="invoice-details__number">
                                 Fakturanr: <%= invoice.invoiceNumber %>

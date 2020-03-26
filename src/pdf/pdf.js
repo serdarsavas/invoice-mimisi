@@ -29,11 +29,9 @@ const viewPdf = response => {
 const downloadPdf = (invoice, response) => {
   response.download(
     FILE_PATH,
-    `faktura${
-      invoice.invoiceNumber
-    }-${invoice.recipient.authority.toLowerCase()}-${invoice.updatedAt
-      .toISOString()
-      .substring(0, 10)}`,
+    `faktura${invoice.invoiceNumber}-${invoice.recipient.name.toLowerCase()}-${
+      invoice.date
+    }`,
     err => {
       if (err) {
         throw new Error(err);
@@ -82,11 +80,18 @@ const emailPdf = async (invoice, user) => {
 };
 
 //Utility function to use in pdf-template
-const format = num => {
+const formatCurrency = num => {
   return new Intl.NumberFormat('sv-SE', {
     style: 'currency',
-    currency: 'SEK'
+    currency: 'CNY'
   }).format(num);
+};
+
+const formatDate = date => {
+  const NUM_DAYS_TO_EXPIRY = 30;
+  const newDate = new Date(date);
+  newDate.setDate(newDate.getDate() + NUM_DAYS_TO_EXPIRY);
+  return newDate.toLocaleDateString('sv-SE');
 };
 
 const convertInvoiceToPdf = async (invoice, user) => {
@@ -100,7 +105,8 @@ const convertInvoiceToPdf = async (invoice, user) => {
       {
         invoice,
         user,
-        format
+        formatCurrency,
+        formatDate
       },
       true
     );
@@ -112,44 +118,42 @@ const convertInvoiceToPdf = async (invoice, user) => {
     await page.setContent(html);
     await page.emulateMedia('screen');
     await page.pdf({
-      displayHeaderFooter: true,
       path: FILE_PATH,
       format: 'A4',
       height: '297mm',
-      width: '210mm',
-      headerTemplate: '<span class="pageNumber"></span>',
-      footerTemplate: `
-        <div style="border-top: 1px solid rgb(64, 64, 64); padding: 1rem; margin: 20px auto; display: flex; justify-content: space-around; font-size: 9px; font-family: 'Helvetica'; width: 90%; ">
-          <p>
-            <span style="font-weight: bold;">Adress</span><br />
-            ${user.street} <br/>
-            ${user.zip} ${user.city}
-          </p>
-          <p>
-            <span style="font-weight: bold;">Bankgiro</span><br />
-            ${user.bankgiro}
-          </p>
-          <p>
-            <span style="font-weight: bold;">Telefon</span><br />
-            ${user.phone}
-          </p>
-          <p>
-            <span style="font-weight: bold;">Epost</span><br />
-            ${user.email}
-          </p>
-          <p>
-            <span style="font-weight: bold;">Organisationsnummer</span><br />
-            ${user.registrationNumber}<br />
-            Godkänd för F-skatt
-          </p>
-        </div>
-        `,
-      margin: {
-        bottom: '150px',
-        top: '50px',
-        right: '20px',
-        left: '20px'
-      }
+      width: '210mm'
+      // headerTemplate: '<span class="pageNumber"></span>',
+      // footerTemplate: `
+      //   <div style="border-top: 1px solid rgb(64, 64, 64); padding: 1rem; margin: 20px auto; display: flex; justify-content: space-around; font-size: 9px; font-family: 'Helvetica'; width: 90%; ">
+      //     <p>
+      //       <span style="font-weight: bold;">Adress</span><br />
+      //       ${user.street} <br/>
+      //       ${user.zip} ${user.city}
+      //     </p>
+      //     <p>
+      //       <span style="font-weight: bold;">Telefon</span><br />
+      //       ${user.phone}
+      //     </p>
+      //     <p>
+      //       <span style="font-weight: bold;">Wechat ID</span><br />
+      //       ${user.wechatId}
+      //     </p>
+      //     <p>
+      //       <span style="font-weight: bold;">Epost</span><br />
+      //       ${user.email}
+      //     </p>
+      //     <p>
+      //       <span style="font-weight: bold;">Organisationsnummer</span><br />
+      //       ${user.registrationNumber}<br />
+      //     </p>
+      //   </div>
+      //   `,
+      // margin: {
+      //   bottom: '150px',
+      //   top: '50px',
+      //   right: '20px',
+      //   left: '20px'
+      // }
     });
     await browser.close();
   } catch (e) {

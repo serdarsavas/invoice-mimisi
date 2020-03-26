@@ -35,7 +35,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  position: String,
+  company: String,
   registrationNumber: String,
   resetToken: String,
   resetTokenExpiration: Date
