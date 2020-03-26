@@ -6,8 +6,8 @@
     "node": "10.9.0"
   },
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "env-cmd ./config/dev.env nodemon src/app.js -e js,ejs"
+    "start": "node --icu-data-dir=node_modules/full-icu src/app.js",
+    "dev": "env-cmd ./config/dev.env nodemon --icu-data-dir=node_modules/full-icu src/app.js -e js,ejs"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "express-validator": "^5.3.1",
+    "full-icu": "^1.3.1",
     "intl": "^1.2.5",
     "mongoose": "^5.7.12",
     "puppeteer": "^1.13.0"
