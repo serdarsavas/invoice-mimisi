@@ -88,4 +88,4 @@ mongoose
       console.log('App is connected to port', port);
     });
   })
-  .catch(e => console.log(e));
+  .catch(err => console.log(err));
